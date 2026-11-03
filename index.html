@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sweet Crumbs - Timer Functions and Arrays</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3eaff;
+            color: #49245f;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #75439b;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+        }
+
+        button {
+            background-color: #925db9;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #66358c;
+        }
+
+        #time {
+            font-size: 28px;
+            font-weight: bold;
+            color: #75439b;
+        }
+
+        #cakeText {
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #delivery {
+            position: relative;
+            left: 0px;
+            width: 70px;
+            height: 55px;
+        }
+
+        #studentDetails {
+            line-height: 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sweet Crumbs Cake Shop</h1>
+    <p>JavaScript - Timer Functions and Arrays</p>
+
+
+    <!-- 1. DIGITAL CLOCK -->
+    <div class="section">
+
+        <h2>1. Digital Clock</h2>
+
+        <p>Current Time:</p>
+        <span id="time"></span>
+
+    </div>
+
+
+    <!-- 2. DYNAMIC BACKGROUND -->
+    <div class="section">
+
+        <h2>2. Dynamic Background Colour</h2>
+
+        <p>
+            The background colour changes automatically
+            every 30 seconds.
+        </p>
+
+    </div>
+
+
+    <!-- 3. CHANGE FONT SIZE -->
+    <div class="section">
+
+        <h2>3. Change Font Size</h2>
+
+        <p id="cakeText"
+           onmouseover="incSize()"
+           onmouseout="decSize()">
+
+            Welcome to Sweet Crumbs Cake Shop!
+            We prepare delicious cakes for every celebration.
+            Move your mouse over this paragraph to increase
+            its font size and move it away to decrease the size.
+
+        </p>
+
+    </div>
+
+
+    <!-- 4. MOVE AND STOP CAR IMAGE -->
+    <div class="section">
+
+        <h2>4. Cake Delivery Car Movement</h2>
+
+        <p>Click Move to start and Stop to stop the car.</p>
+
+        <img id="delivery" alt="Cake Delivery Car">
+
+        <br>
+
+        <button onclick="moveRight()">Move</button>
+        <button onclick="stop()">Stop</button>
+
+    </div>
+
+
+    <!-- 5. ARRAY OF OBJECTS -->
+    <div class="section">
+
+        <h2>5. Student Details</h2>
+
+        <p>Student information displayed using an array of objects.</p>
+
+        <button onclick="displayStudents()">Display Students</button>
+
+        <div id="studentDetails"></div>
+
+    </div>
+
+
+    <!-- CLASS AND OBJECT -->
+    <div class="section">
+
+        <h2>Class and Object Demonstration</h2>
+
+        <p id="demo"></p>
+
+    </div>
+
+
+    <script>
+
+        /* =================================
+           1. DIGITAL CLOCK
+        ================================= */
+
+        function display() {
+
+            var d = new Date();
+
+            var hours = d.getHours();
+            var minutes = d.getMinutes();
+            var seconds = d.getSeconds();
+
+            hours = String(hours).padStart(2, "0");
+            minutes = String(minutes).padStart(2, "0");
+            seconds = String(seconds).padStart(2, "0");
+
+            document.getElementById("time").innerHTML =
+                hours + ":" + minutes + ":" + seconds;
+        }
+
+        // Display the time every one second
+        display();
+        setInterval(display, 1000);
+
+
+        /* =================================
+           2. DYNAMIC BACKGROUND COLOUR
+        ================================= */
+
+        function setBackgroundColor() {
+
+            var red = Math.floor(Math.random() * 256);
+            var green = Math.floor(Math.random() * 256);
+            var blue = Math.floor(Math.random() * 256);
+
+            var color = "rgb(" + red + "," +
+                        green + "," + blue + ")";
+
+            document.body.style.backgroundColor = color;
+        }
+
+        // Change background colour every 30 seconds
+        setInterval(setBackgroundColor, 30000);
+
+
+        /* =================================
+           3. CHANGE FONT SIZE
+        ================================= */
+
+        function incSize() {
+
+            document.getElementById("cakeText").style.fontSize =
+                "28px";
+        }
+
+        function decSize() {
+
+            document.getElementById("cakeText").style.fontSize =
+                "18px";
+        }
+
+
+        /* =================================
+           4. MOVE AND STOP CAR IMAGE
+        ================================= */
+
+        var imgObj;
+        var animate;
+
+        function init() {
+
+            imgObj = document.getElementById("delivery");
+
+            // Create a car image using SVG
+            var carImage = `
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="140" height="100" viewBox="0 0 140 100">
+                    <rect x="18" y="42" width="105" height="35"
+                          rx="9" fill="#925db9"/>
+                    <path d="M37 42 L52 18 H91 L110 42"
+                          fill="#d9b8f0" stroke="#75439b"
+                          stroke-width="3"/>
+                    <rect x="55" y="23" width="30" height="17"
+                          fill="#ffffff"/>
+                    <rect x="89" y="23" width="16" height="17"
+                          fill="#ffffff"/>
+                    <circle cx="42" cy="78" r="12" fill="#333333"/>
+                    <circle cx="101" cy="78" r="12" fill="#333333"/>
+                    <circle cx="42" cy="78" r="5" fill="#dddddd"/>
+                    <circle cx="101" cy="78" r="5" fill="#dddddd"/>
+                    <rect x="113" y="50" width="10" height="10"
+                          fill="#ffeb3b"/>
+                </svg>
+            `;
+
+            imgObj.src = "data:image/svg+xml;charset=UTF-8," +
+                         encodeURIComponent(carImage);
+
+            imgObj.style.position = "relative";
+            imgObj.style.left = "0px";
+
+        }
+
+        function moveRight() {
+
+            clearTimeout(animate);
+
+            var currentPosition =
+                parseInt(imgObj.style.left) || 0;
+
+            if (currentPosition >= 600) {
+                return;
+            }
+
+            imgObj.style.left = currentPosition + 1 + "px";
+
+            // Call moveRight again after 20 milliseconds
+            animate = setTimeout(moveRight, 20);
+
+        }
+
+        function stop() {
+
+            clearTimeout(animate);
+            imgObj.style.left = "0px";
+
+        }
+
+        // Initialize the car image when the page loads
+        window.onload = init;
+
+
+        /* =================================
+           5. ARRAY OF OBJECTS
+        ================================= */
+
+        var students = [
+
+            {
+                name: "Arun",
+                regno: "URK24CS1101",
+                year: 1999
+            },
+
+            {
+                name: "Priya",
+                regno: "URK24CS1102",
+                year: 2002
+            },
+
+            {
+                name: "Rahul",
+                regno: "URK24CS1103",
+                year: 2000
+            },
+
+            {
+                name: "Meena",
+                regno: "URK24CS1104",
+                year: 1998
+            }
+
+        ];
+
+        function displayStudents() {
+
+            var output = "";
+
+            for (var i = 0; i < students.length; i++) {
+
+                output += "<p>";
+
+                output += students[i].name +
+                    "'s Register Number is " +
+                    students[i].regno + "<br>";
+
+                if (students[i].year < 2000) {
+
+                    output += "Born before 2000";
+
+                }
+                else {
+
+                    output += "Born in or after 2000";
+
+                }
+
+                output += "</p>";
+
+            }
+
+            document.getElementById("studentDetails").innerHTML =
+                output;
+
+        }
+
+
+        /* =================================
+           CLASS AND OBJECT
+        ================================= */
+
+        class Cake {
+
+            constructor(brand) {
+
+                this.cakename = brand;
+
+            }
+
+            present() {
+
+                return "We have a " + this.cakename +
+                       " at Sweet Crumbs Cake Shop.";
+
+            }
+
+        }
+
+        var mycake = new Cake("Chocolate Cake");
+
+        document.getElementById("demo").innerHTML =
+            mycake.present();
+
+    </script>
+
+</body>
+</html>
+
